@@ -15,10 +15,10 @@ class FriendlyBrewerApiServer:
     def initialize(self):
         self.flask_app: Flask = Flask(__name__)
 
-        self.flask_app.config["MONGODB_SETTINGS"] = {
-            "host": "mongodb+srv://homebrew_guy:qBP&zo7ATsofdFbsFEX8aPSATCKdd8Na@friendly-brewer.zxtom.mongodb.net/beer_recipes?retryWrites=true&w=majority"
-        }
         self.flask_app.config.from_envvar("ENV_FILE_PATH")
+        self.flask_app.config["MONGODB_SETTINGS"] = {
+            "host": self.flask_app.config["MONGO_URI"]
+        }
 
         self.flask_api = Api(self.flask_app)
         self.bcrypt = Bcrypt(self.flask_app)
@@ -28,24 +28,10 @@ class FriendlyBrewerApiServer:
         initialize_routes(self.flask_api)
 
     def run(self):
-        self.flask_app.run()
+        self.flask_app.run(debug=True)
 
 
-# if __name__ == "__main__":
-#     # app = FriendlyBrewerApiServer()
-#     # app.initialize()
-#     # app.run()
-
-app: Flask = Flask(__name__)
-
-app.config["MONGODB_SETTINGS"] = {
-    "host": "mongodb+srv://homebrew_guy:qBP&zo7ATsofdFbsFEX8aPSATCKdd8Na@friendly-brewer.zxtom.mongodb.net/beer_recipes?retryWrites=true&w=majority"
-}
-app.config.from_envvar("ENV_FILE_PATH")
-
-flask_api = Api(app)
-bcrypt = Bcrypt(app)
-jwt = JWTManager(app)
-
-initialize_database(app)
-initialize_routes(flask_api)
+if __name__ == "__main__":
+    app = FriendlyBrewerApiServer()
+    app.initialize()
+    app.run()
