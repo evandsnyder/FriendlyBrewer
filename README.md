@@ -35,6 +35,9 @@ python3 api/app.py
 ### Angular Client
 I haven't begun this part yet, and it probably won't be done before the end of week 4. Have fun!
 
+### Testing
+For convenience, I have added a collection of postman requests stored in the `FriendlyBrewerAPI.postman_collection.json` file. You can import that into Postman and run the requests to verify that the server works. You MUST register and Login before you can create a recipe though!
+
 ## Architecture
 
 Friendly Brewer is a 3-tier application where the front-end, written in Angular JS, will communicate with a backend written in Python using Flask. The Flask REST API will communicate with a MongoDB database hosted on Mongo's Atlas System.
