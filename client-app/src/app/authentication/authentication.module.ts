@@ -19,6 +19,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     FlexLayoutModule,
     RouterModule.forChild([
       { path: 'register', component: RegistrationComponent },
+      { path: 'login', component: LoginComponent },
     ])
   ]
 })

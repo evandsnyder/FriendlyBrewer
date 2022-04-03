@@ -33,7 +33,12 @@ python3 api/app.py
 ```
 
 ### Angular Client
-I haven't begun this part yet, and it probably won't be done before the end of week 4. Have fun!
+Work has begun on the Angular client! In order to build and run the app, execute the following instructions:
+```
+cd client-app
+npm install
+ng serve
+```
 
 ### Testing
 For convenience, I have added a collection of postman requests stored in the `FriendlyBrewerAPI.postman_collection.json` file. You can import that into Postman and run the requests to verify that the server works. You MUST register and Login before you can create a recipe though!
