@@ -5,6 +5,8 @@ from flask_bcrypt import generate_password_hash, check_password_hash
 
 
 class User(database.Document):
+    first_name: str = database.StringField(required=True)
+    last_name: str = database.StringField(required=True)
     email: str = database.EmailField(required=True, unique=True)
     password: str = database.StringField(required=True, min_length=6)
     recipes: list[BeerRecipe] = database.ListField(

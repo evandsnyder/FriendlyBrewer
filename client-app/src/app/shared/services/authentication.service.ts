@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { EnvironmentUrlService } from './environment-url.service';
 import { RegistrationRequest } from 'src/app/_interfaces/registration_request.model';
 import { RegistrationResponse } from 'src/app/_interfaces/registration_reponse.model';
@@ -22,18 +22,28 @@ export class AuthenticationService {
   }
 
   public registerUser = (route: string, body: RegistrationRequest) => {
-    return this._http.post<RegistrationResponse>(this.createCompleteRoute(route, this._envUrl.urlAddress), body);
+    let message = JSON.stringify(body);
+    console.log(`Sending: ${message}`);
+    return this._http.post<RegistrationResponse>(this.createCompleteRoute(route, this._envUrl.urlAddress), message, this.generateHeaders());
   }
 
-  public login = (route: string, body: LoginRequest) =>{
-    return this._http.post(this.createCompleteRoute(route, this._envUrl.urlAddress), body);
+  public login = (route: string, body: LoginRequest) => {
+    let message = JSON.stringify(body);
+    console.log(`Sending: ${message}`);
+    return this._http.post(this.createCompleteRoute(route, this._envUrl.urlAddress), message, this.generateHeaders());
   }
 
   public sendAuthStateChangeNotification = (isAuthenticated: boolean) => {
     this._authChangeSub.next(isAuthenticated);
   }
 
-  private createCompleteRoute = (route: string, envAddress: string) =>{
-    return `${envAddress}/${route}`;
+  private createCompleteRoute = (route: string, envAddress: string) => {
+    return `${envAddress}${route}`;
+  }
+
+  private generateHeaders = () => {
+    return {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+    }
   }
 }

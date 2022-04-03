@@ -10,6 +10,7 @@ The API is built using Python 3.10. This guide is written for Linux or Mac since
 
 You'll also need to make sure you have `pip` installed as well as the `venv` module. From there, you can set up an environment as follows:
 
+#### Linux & Mac
 ```bash
 git clone https://github.com/evandsnyder/FriendlyBrewer.git -o friendly_brewer
 cd friendly_brewer
@@ -25,11 +26,24 @@ echo "MONGO_URI='<MongoDB Connection String>'" >> .env
 export ENV_FILE_PATH=`pwd`/.env
 ```
 
-If you're on windows, I leave the previous block as an exercise to the reader.
-
 You're FINALLY ready to launch the app:
 ```bash
 python3 api/app.py
+```
+
+#### Windows
+I tested this on windows using powershell
+```bat
+git clone https://github.com/evandsnyder/FriendlyBrewer.git -o friendly_brewer
+cd friendly_brewer
+python3.10 -m venv venv
+.\venv\Scripts\Activate.ps1
+
+"JWT_SECRET_TOKEN='<a secret string>'" | Add-Content .env
+"MONG_URI='<DB_URI>'" | Add-Content .env
+
+$file_path = (Get-Location).path + "\.env"
+$Env:ENV_FILE_PATH=$file_path
 ```
 
 ### Angular Client

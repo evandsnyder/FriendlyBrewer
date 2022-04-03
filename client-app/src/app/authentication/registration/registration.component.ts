@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { PasswordConfirmationValidatorService } from 'src/app/shared/custom-validators/password-confirmation-validator.service';
 import { AuthenticationService } from 'src/app/shared/services/authentication.service';
 import { RegistrationRequest } from 'src/app/_interfaces/registration_request.model';
 
@@ -14,7 +15,7 @@ export class RegistrationComponent implements OnInit {
   public registrationForm: FormGroup;
   public hide: boolean = true;
 
-  constructor(private _authService: AuthenticationService, private _router: Router) { }
+  constructor(private _authService: AuthenticationService, private _router: Router, private _passwordConfirmationValidator: PasswordConfirmationValidatorService) { }
 
   ngOnInit(): void {
     this.registrationForm = new FormGroup({
@@ -24,6 +25,8 @@ export class RegistrationComponent implements OnInit {
       password: new FormControl('', [Validators.required]),
       confirm: new FormControl('')
     });
+
+    this.registrationForm.get('confirm').setValidators([Validators.required, this._passwordConfirmationValidator.validateConfirmPassword(this.registrationForm.get('password'))])
   }
 
   public validateControl = (controlName: string) => {
