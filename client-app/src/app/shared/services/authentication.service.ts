@@ -5,6 +5,7 @@ import { RegistrationRequest } from 'src/app/_interfaces/registration_request.mo
 import { RegistrationResponse } from 'src/app/_interfaces/registration_reponse.model';
 import { LoginRequest } from 'src/app/_interfaces/login_request.model';
 import { Subject } from 'rxjs';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,12 @@ export class AuthenticationService {
   private _authChangeSub = new Subject<boolean>();
   public authChanged = this._authChangeSub.asObservable();
 
-  constructor(private _http: HttpClient, private _envUrl: EnvironmentUrlService) { }
+  constructor(private _http: HttpClient, private _envUrl: EnvironmentUrlService, private _jwtHelperService: JwtHelperService) { }
+
+  public isUserAuthenticated = (): boolean => {
+    const token = localStorage.getItem("token");
+    return token && !this._jwtHelperService.isTokenExpired(token);
+  }
 
   public registerUser = (route: string, body: RegistrationRequest) => {
     return this._http.post<RegistrationResponse>(this.createCompleteRoute(route, this._envUrl.urlAddress), body);

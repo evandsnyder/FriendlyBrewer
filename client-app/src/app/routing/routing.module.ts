@@ -5,9 +5,9 @@ import { NotFoundComponent } from '../error-pages/not-found/not-found.component'
 import { HomeComponent } from '../home/home.component';
 
 const routes: Routes = [
-  { path: 'home', component: HomeComponent },
+  { path: 'recipes', loadChildren: () => import('../recipes/recipes.module').then(m => m.RecipesModule) },
   { path: 'authentication', loadChildren: () => import('.././authentication/authentication.module').then(m => m.AuthenticationModule) },
-  { path: '', redirectTo: '/home', pathMatch: 'full' },
+  { path: '', redirectTo: '/recipes', pathMatch: 'full' },
   { path: '404', component: NotFoundComponent },
   { path: '**', redirectTo: '/404', pathMatch: 'full' }
 ]
