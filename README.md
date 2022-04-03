@@ -21,7 +21,7 @@ pip install -r api/requirements.txt
 Once your environment is set up, you'll need to do just a little more prep to ensure that the application is ready for first time use. Namely, create a file called `.env` with the following content:
 ```bash
 touch .env
-echo "JWT_SECRET_TOKEN='<random_string_here>'" >> .env
+echo "JWT_SECRET_KEY='<random_string_here>'" >> .env
 echo "MONGO_URI='<MongoDB Connection String>'" >> .env
 export ENV_FILE_PATH=`pwd`/.env
 ```
@@ -39,7 +39,7 @@ cd friendly_brewer
 python3.10 -m venv venv
 .\venv\Scripts\Activate.ps1
 
-"JWT_SECRET_TOKEN='<a secret string>'" | Add-Content .env
+"JWT_SECRET_KEY='<a secret string>'" | Add-Content .env
 "MONG_URI='<DB_URI>'" | Add-Content .env
 
 $file_path = (Get-Location).path + "\.env"
