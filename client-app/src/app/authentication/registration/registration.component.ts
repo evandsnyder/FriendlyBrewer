@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthenticationService } from 'src/app/shared/services/authentication.service';
 import { RegistrationRequest } from 'src/app/_interfaces/registration_request.model';
@@ -13,7 +14,7 @@ export class RegistrationComponent implements OnInit {
   public registrationForm: FormGroup;
   public hide: boolean = true;
 
-  constructor(private _authService: AuthenticationService) { }
+  constructor(private _authService: AuthenticationService, private _router: Router) { }
 
   ngOnInit(): void {
     this.registrationForm = new FormGroup({
@@ -45,7 +46,7 @@ export class RegistrationComponent implements OnInit {
 
     let sub: Subscription = this._authService.registerUser("/auth/signup", user).subscribe({
       next: (v) => {
-        v.isSuccessfulRegistration ? console.log("Registered Successfully") : console.log("Failed to register");
+        this._router.navigate(['/authentication/login']);
       },
       error: (e) => console.log(e.error.errors),
       complete: () => sub.unsubscribe()

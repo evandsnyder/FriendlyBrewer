@@ -12,9 +12,17 @@
             <li>
                 <a routerLink="/recipes">Browse Recipes</a>
             </li>
-            <li>
-                <a routerLink="/authentication/register">Register</a>
-            </li>
+            <ng-container *ngIf="!isUserAuthenticated else authenticated">
+                <li>
+                    <a routerLink="/authentication/login">Login</a>
+                </li>
+                <li>
+                    <a routerLink="/authentication/register">Register</a>
+                </li>
+            </ng-container>
+            <ng-template #authenticated>
+                <mat-card></mat-card>
+            </ng-template>
         </ul>
     </div>
   </mat-toolbar>
