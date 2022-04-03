@@ -16,7 +16,10 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {
     let sub: Subscription = this._authService.authChanged.subscribe({
-      next: (isLoggedIn) => this.isUserAuthenticated = isLoggedIn,
+      next: (isLoggedIn) => {
+        this.isUserAuthenticated = isLoggedIn;
+        console.log(`authentication state ${this.isUserAuthenticated}`)
+      },
       complete: () => sub.unsubscribe()
     });
   }

@@ -23,17 +23,16 @@ export class AuthenticationService {
 
   public registerUser = (route: string, body: RegistrationRequest) => {
     let message = JSON.stringify(body);
-    console.log(`Sending: ${message}`);
     return this._http.post<RegistrationResponse>(this.createCompleteRoute(route, this._envUrl.urlAddress), message, this.generateHeaders());
   }
 
   public login = (route: string, body: LoginRequest) => {
     let message = JSON.stringify(body);
-    console.log(`Sending: ${message}`);
     return this._http.post(this.createCompleteRoute(route, this._envUrl.urlAddress), message, this.generateHeaders());
   }
 
   public sendAuthStateChangeNotification = (isAuthenticated: boolean) => {
+    console.log("Authentication State Changed")
     this._authChangeSub.next(isAuthenticated);
   }
 

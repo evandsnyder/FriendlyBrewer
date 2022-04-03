@@ -14,6 +14,8 @@ import { RegistrationRequest } from 'src/app/_interfaces/registration_request.mo
 export class RegistrationComponent implements OnInit {
   public registrationForm: FormGroup;
   public hide: boolean = true;
+  public errorMessage: string = '';
+  public showError: boolean;
 
   constructor(private _authService: AuthenticationService, private _router: Router, private _passwordConfirmationValidator: PasswordConfirmationValidatorService) { }
 
@@ -38,6 +40,7 @@ export class RegistrationComponent implements OnInit {
   }
 
   public register = (registrationFormValue: any) => {
+    this.showError = false;
     const formValues = { ...registrationFormValue };
     const user: RegistrationRequest = {
       firstName: formValues.firstName,
@@ -51,7 +54,10 @@ export class RegistrationComponent implements OnInit {
       next: (v) => {
         this._router.navigate(['/authentication/login']);
       },
-      error: (e) => console.log(e.error.errors),
+      error: (e) => { 
+        this.errorMessage = e;
+        this.showError = true;
+      },
       complete: () => sub.unsubscribe()
     });
   };

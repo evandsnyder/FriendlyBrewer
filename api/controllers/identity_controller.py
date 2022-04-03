@@ -1,10 +1,13 @@
 import datetime
+from .errors import InternalErrorServer, MismatchedPasswordsError, SchemaValidationError, UnauthorizedError, UserAlreadyExistsError
 
 from database.models.user import User
-from flask import Response, request, jsonify
+from flask import request
 from flask_jwt_extended import create_access_token
 from flask_restful import Resource
 from flask import current_app as app
+
+from mongoengine.errors import FieldDoesNotExist, NotUniqueError, DoesNotExist
 
 
 class RegisterApi(Resource):
@@ -16,18 +19,25 @@ class RegisterApi(Resource):
         app.logger.debug(f"Dumping data: {request.json}")
 
         if body.get("password") != body.get("confirmPassword"):
-            return {"msg": "Passwords must match"}, 406
+            raise MismatchedPasswordsError
 
-        user = User(
-            email=body.get("email"),
-            first_name=body.get("firstName"),
-            last_name=body.get("lastName"),
-            password=body.get("password"),
-        )
-        user.hash_password()
-        user.save()
-        user_id = user.id
-        return {"id": str(user_id)}, 200
+        try:
+            user = User(
+                email=body.get("email"),
+                first_name=body.get("firstName"),
+                last_name=body.get("lastName"),
+                password=body.get("password"),
+            )
+            user.hash_password()
+            user.save()
+            user_id = user.id
+            return {"id": str(user_id)}, 200
+        except FieldDoesNotExist:
+            raise SchemaValidationError
+        except NotUniqueError:
+            raise UserAlreadyExistsError
+        except Exception as e:
+            raise InternalErrorServer
 
 
 class LoginApi(Resource):
@@ -36,18 +46,18 @@ class LoginApi(Resource):
     
     def post(self):
         body = request.get_json()
-        app.logger.debug(f"Looking up user: {body.get('email')}")
-        if User.objects(email=body.get("email")) is None:
-            return {
-                "isLoginSuccess": False,
-                "errorMessage": "Invalid Username or Password",
-            }, 405
-        user = User.objects.get(email=body.get("email"))
 
-        authorized = user.check_password(body.get("password"))
-        if not authorized:
-            return {"error": "Invalid email or password"}, 401
+        try:
+            user = User.objects.get(email=body.get("email"))
 
-        expires = datetime.timedelta(days=7)
-        access_token = create_access_token(identity=str(user.id), expires_delta=expires)
-        return {"token": access_token}, 200
+            authorized = user.check_password(body.get("password"))
+            if not authorized:
+                return {"error": "Invalid email or password"}, 401
+
+            expires = datetime.timedelta(days=7)
+            access_token = create_access_token(identity=str(user.id), expires_delta=expires)
+            return {"isLoginSuccessful": True, "token": access_token}, 200
+        except (UnauthorizedError, DoesNotExist):
+            raise UnauthorizedError
+        except Exception as e:
+            raise InternalErrorServer
