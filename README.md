@@ -39,6 +39,8 @@ cd friendly_brewer
 python3.10 -m venv venv
 .\venv\Scripts\Activate.ps1
 
+pip install -r .\api\requirements.txt
+
 "JWT_SECRET_KEY='<a secret string>'" | Add-Content .env
 "MONG_URI='<DB_URI>'" | Add-Content .env
 
