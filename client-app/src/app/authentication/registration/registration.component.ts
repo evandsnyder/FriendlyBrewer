@@ -11,12 +11,13 @@ import { RegistrationRequest } from 'src/app/_interfaces/registration_request.mo
 })
 export class RegistrationComponent implements OnInit {
   public registrationForm: FormGroup;
+  public hide: boolean = true;
 
   constructor(private _authService: AuthenticationService) { }
 
   ngOnInit(): void {
     this.registrationForm = new FormGroup({
-      firstNam: new FormControl(''),
+      firstName: new FormControl(''),
       lastName: new FormControl(''),
       email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [Validators.required]),
