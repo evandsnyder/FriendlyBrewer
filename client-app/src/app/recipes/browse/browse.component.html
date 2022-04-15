@@ -1,1 +1,8 @@
-<p>browse works!</p>
+<div fxLayout="row" fxLayoutAlign="center" fxLayoutJustify="center">
+    <ng-container *ngIf="!_loading; else loadingTemplate">
+        <h1>Hello, world!</h1>
+    </ng-container>
+    <ng-template #loadingTemplate>
+        <mat-spinner *ngIf="_loading"></mat-spinner>
+    </ng-template>
+</div>

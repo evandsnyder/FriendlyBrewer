@@ -36,7 +36,7 @@ I tested this on windows using powershell
 ```bat
 git clone https://github.com/evandsnyder/FriendlyBrewer.git -o friendly_brewer
 cd friendly_brewer
-python3.10 -m venv venv
+python3 -m venv venv
 .\venv\Scripts\Activate.ps1
 
 pip install -r .\api\requirements.txt
@@ -46,6 +46,8 @@ pip install -r .\api\requirements.txt
 
 $file_path = (Get-Location).path + "\.env"
 $Env:ENV_FILE_PATH=$file_path
+
+python .\api\app.py
 ```
 
 ### Angular Client

@@ -10,6 +10,9 @@ logger = logging.getLogger(__name__)
 
 
 class AllRecipesApi(Resource):
+    def options(self):
+        pass
+
     def get(self) -> Response:
         recipes = BeerRecipe.objects().to_json()
         return Response(recipes, mimetype="application/json", status=200)
@@ -28,6 +31,9 @@ class AllRecipesApi(Resource):
 
 
 class RecipeApi(Resource):
+    def options(self):
+        pass
+    
     def get(self, id):
         recipe = BeerRecipe.objects.get(id=id).to_json()
         return Response(recipe, mimetype="application/json", status=200)

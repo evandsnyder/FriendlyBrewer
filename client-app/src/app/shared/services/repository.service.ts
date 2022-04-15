@@ -12,6 +12,10 @@ export class RepositoryService {
   public getData = (route: string) => {
     return this.http.get(this.createCompleteRoute(route, this.envUrl.urlAddress));
   }
+
+  public postData = (route: string, data: any) => {
+    return this.http.post(this.createCompleteRoute(route, this.envUrl.urlAddress), data, this.generateHeaders());
+  }
  
   private createCompleteRoute = (route: string, envAddress: string) => {
     return `${envAddress}/${route}`;

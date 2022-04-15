@@ -1,1 +1,86 @@
-<p>craft works!</p>
+<mat-card fxLayout="column" fxAlignContent="center">
+    <mat-card-title>Craft a Recipe</mat-card-title>
+    <mat-card-content>
+        <form [formGroup]="craftForm" autocomplete="off" novalidate fxLayout="column">
+            <mat-form-field>
+                <mat-label>Recipe Name</mat-label>
+                <input matInput placeholder="Friendly Brewer Pilsner" formControlName="name">
+            </mat-form-field>
+            <ng-container [formGroup]="yeast">
+                <div class="bordered-group">
+                    <h4>Yeast</h4>
+                    <mat-form-field>
+                        <mat-label>Yeast</mat-label>
+                        <input matInput formControlName="name" />
+                    </mat-form-field>
+                    <mat-form-field>
+                        <mat-label>Pitching Temperature</mat-label>
+                        <input matInput formControlName="targetTemp" />
+                    </mat-form-field>
+                </div>
+            </ng-container>
+
+            <ng-container formArrayName="grains">
+                <div class="bordered-group">
+                    <h4>Grain Bill</h4>
+                    <div *ngFor="let _ of grains.controls; index as i">
+                        <ng-container [formGroupName]="i">
+                            <mat-form-field>
+                                <mat-label>Grain</mat-label>
+                                <input matInput formControlName="name" />
+                            </mat-form-field>
+                            <mat-form-field>
+                                <mat-label>Amount</mat-label>
+                                <input matInput formControlName="amount" />
+                            </mat-form-field>
+                        </ng-container>
+                    </div>
+                    <button (click)="addGrain()">Add Grain</button>
+                </div>
+            </ng-container>
+
+            <ng-container formArrayName="hops">
+                <div class="bordered-group">
+                    <h4>Hops</h4>
+                    <div *ngFor="let _ of hops.controls; index as i">
+                        <ng-container [formGroupName]="i">
+                            <mat-form-field>
+                                <mat-label>Hop Name</mat-label>
+                                <input matInput formControlName="name" />
+                            </mat-form-field>
+                            <mat-form-field>
+                                <mat-label>Phase</mat-label>
+                                <input matInput formControlName="phase" />
+                            </mat-form-field>
+                            <mat-form-field>
+                                <mat-label>Time</mat-label>
+                                <input matInput formControlName="time" />
+                            </mat-form-field>
+                            <mat-form-field>
+                                <mat-label>Amount</mat-label>
+                                <input matInput formControlName="amount" />
+                            </mat-form-field>
+                        </ng-container>
+                    </div>
+                    <button (click)="addHop()">Add Hop</button>
+                </div>
+            </ng-container>
+            <ng-container formArrayName="instructions">
+                <div class="bordered-group">
+                    <h4>Instructions</h4>
+                    <div *ngFor="let _ of instructions.controls; index as i">
+                        <mat-form-field>
+                            <mat-label>Step:</mat-label>
+                            <input matInput [formControlName]="i" />
+                        </mat-form-field>
+                    </div>
+                    <button (click)="addStep()">Add Step</button>
+                </div>
+            </ng-container>
+        </form>
+    </mat-card-content>
+    <mat-card-actions>
+        <button (click)="submitRecipe()" mat-raised-button color="primary">Save Recipe</button>
+        <button (click)="cancel()" mat-raised-button color="warn">Cancel</button>
+    </mat-card-actions>
+</mat-card>

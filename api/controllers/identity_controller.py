@@ -16,7 +16,6 @@ class RegisterApi(Resource):
 
     def post(self):
         body = request.get_json()
-        app.logger.debug(f"Dumping data: {request.json}")
 
         if body.get("password") != body.get("confirmPassword"):
             raise MismatchedPasswordsError

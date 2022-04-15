@@ -16,7 +16,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { JwtModule } from '@auth0/angular-jwt';
 import { ErrorHandlerService } from './shared/services/error-handler.service';
 
-export function tokenGetter(){
+export function localTokenGetter(){
   return localStorage.getItem("token");
 }
 
@@ -40,7 +40,8 @@ export function tokenGetter(){
     RoutingModule,
     JwtModule.forRoot({
       config: {
-        tokenGetter: tokenGetter,
+        tokenGetter: localTokenGetter,
+        allowedDomains: ["localhost:5000"]
       }
     })
   ],
