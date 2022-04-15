@@ -1,5 +1,5 @@
 export interface Grain{
-    id: string;
+    _id: string;
     name: string;
     amount: string;
 }

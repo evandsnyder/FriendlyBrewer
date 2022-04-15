@@ -1,5 +1,5 @@
 export interface Yeast {
-    id: string;
+    _id: string;
     name: string;
     targetTemp: string;
 }

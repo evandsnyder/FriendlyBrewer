@@ -1,6 +1,16 @@
-<div fxLayout="row" fxLayoutAlign="center" fxLayoutJustify="center">
+<div fxLayout="row" fxLayoutAlign="space-evenly" fxLayoutJustify="center" class="recipe-list">
     <ng-container *ngIf="!_loading; else loadingTemplate">
-        <h1>Hello, world!</h1>
+        <ng-container *ngFor="let r of recipes">
+            <mat-card class="recipe-card" (click)="onClick(r._id.$oid)">
+                <mat-card-header>
+                    <mat-card-title>{{r.name}}</mat-card-title>
+                    <mat-card-subtitle>{{r.created_by}}</mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-content>
+                    <img src="assets/beer_placeholder.jpeg"/>
+                </mat-card-content>
+            </mat-card>
+        </ng-container>
     </ng-container>
     <ng-template #loadingTemplate>
         <mat-spinner *ngIf="_loading"></mat-spinner>

@@ -1,5 +1,5 @@
 export interface Hop {
-    id: string;
+    _id: string;
     name: string;
     phase: string;
     time: string;

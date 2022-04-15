@@ -3,10 +3,11 @@ import { Hop } from "./hop.model";
 import { Yeast } from "./yeast.model";
 
 export interface Recipe {
-    id: string;
+    _id: any;
     name: string;
     hops: Hop[];
     grains: Grain[];
     instructions: string[];
     yeast: Yeast;
+    created_by: any;
 }
