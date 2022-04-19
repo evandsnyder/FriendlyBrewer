@@ -24,8 +24,21 @@
                 <li>
                     <a routerLink="/recipes/craft">Craft a Recipe</a>
                 </li>
-                <mat-icon>settings</mat-icon>
+                <button mat-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                    <span>Profile</span>
+                    <mat-icon>person</mat-icon>
+                </button>
+                <mat-menu #menu="matMenu">
+                    <button mat-menu-item (click)="navigateToAccount()">
+                        <mat-icon>settings</mat-icon>
+                        <span>Account</span>
+                    </button>
+                    <button mat-menu-item color="warn" (click)="logout()">
+                        <mat-icon>logout</mat-icon>
+                        <span>Logout</span>
+                    </button>
+                </mat-menu>
             </ng-template>
         </ul>
     </div>
-  </mat-toolbar>
+</mat-toolbar>

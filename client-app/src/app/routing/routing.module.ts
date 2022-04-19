@@ -6,6 +6,7 @@ import { HomeComponent } from '../home/home.component';
 
 const routes: Routes = [
   { path: 'recipes', loadChildren: () => import('../recipes/recipes.module').then(m => m.RecipesModule) },
+  { path: 'profile', loadChildren: () => import('../profile/profile.module').then(m => m.ProfileModule) },
   { path: 'authentication', loadChildren: () => import('.././authentication/authentication.module').then(m => m.AuthenticationModule) },
   { path: '', redirectTo: '/recipes', pathMatch: 'full' },
   { path: '404', component: NotFoundComponent },

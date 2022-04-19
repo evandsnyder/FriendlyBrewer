@@ -46,17 +46,7 @@ export class LoginComponent implements OnInit {
       password: loginData.password
     }
 
-    let sub: Subscription = this._authService.login('/auth/login', loginRequest).subscribe({
-      next: (v: LoginResponse) => {
-        console.log(`login response received:${v}`);
-        localStorage.setItem("token", v.token);
-        this._authService.sendAuthStateChangeNotification(v.isLoginSuccessful);
-        this._router.navigate([this._returnUrl]);
-      }, error: (e) => { console.log(e.error.errors); },
-      complete: () => {
-        sub.unsubscribe();
-      }
-    });
+    this._authService.login('/auth/login', loginRequest, this._returnUrl);
   }
 
 }

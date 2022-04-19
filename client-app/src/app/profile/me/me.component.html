@@ -1,0 +1,71 @@
+<div>
+    <ng-container *ngIf="loaded else loadingTemplate">
+        <mat-card>
+            <mat-card-header>Profile Summary</mat-card-header>
+            <mat-card-content>
+                <div>
+                    <form [formGroup]="updateUserInfoForm">
+                        <h4>Overview</h4>
+                        <mat-form-field>
+                            <mat-label>First Name</mat-label>
+                            <input matInput formControlName="firstName" />
+                        </mat-form-field>
+                        <mat-form-field>
+                            <mat-label>Last Name</mat-label>
+                            <input matInput formControlName="lastName" />
+                        </mat-form-field>
+                        <mat-form-field>
+                            <mat-label>Email</mat-label>
+                            <input matInput formControlName="email" />
+                        </mat-form-field>
+                    </form>
+                </div>
+                <div>
+                    <h3>Update Password:</h3>
+                    <form [formGroup]="updatePasswordForm">
+                        <mat-form-field>
+                            <mat-label>Password</mat-label>
+                            <input matInput type="password" formControlName="password" />
+                        </mat-form-field>
+                        <mat-form-field>
+                            <mat-label>Confirm Password</mat-label>
+                            <input matInput type="password" formControlName="confirm" />
+                        </mat-form-field>
+                    </form>
+                </div>
+                <div>
+                    <!-- Recipes and Favorites goes here... -->
+                    <mat-tab-group>
+                        <mat-tab label="My Recipes">
+                            <ul>
+                                <ng-container *ngIf="user.recipes.length > 0; else noRecipes">
+                                    <ng-container *ngFor="let r of user.recipes">
+                                        <li>
+                                            <a routerLink="/recipes/{{r._id.$oid}}">{{r.name}}</a>
+                                        </li>
+                                    </ng-container>
+                                </ng-container>
+                                <ng-template #noRecipes>
+                                    <p>You haven't crafted any recipes yet</p>
+                                </ng-template>
+                            </ul>
+                        </mat-tab>
+                        <mat-tab label="My Favorites">
+                            <ng-container *ngIf="user.favorites.length > 0; else noFavorites">
+                                <ng-container *ngFor="let r of user.favorites">
+                                    <a routerLink="/recipes/{{r._id.$oid}}">{{r.name}}</a>
+                                </ng-container>
+                            </ng-container>
+                            <ng-template #noFavorites>
+                                <p>You haven't favorited any recipes yet!</p>
+                            </ng-template>
+                        </mat-tab>
+                    </mat-tab-group>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </ng-container>
+    <ng-template #loadingTemplate>
+        <mat-spinner></mat-spinner>
+    </ng-template>
+</div>

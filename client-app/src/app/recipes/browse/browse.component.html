@@ -4,15 +4,26 @@
             <mat-card class="recipe-card" (click)="onClick(r._id.$oid)">
                 <mat-card-header>
                     <mat-card-title>{{r.name}}</mat-card-title>
-                    <mat-card-subtitle>{{r.created_by}}</mat-card-subtitle>
+                    <mat-card-subtitle>
+                        <button mat-button
+                            (click)="routeToProfile(r.created_by._id.$oid)">{{r.created_by.email}}</button>
+                    </mat-card-subtitle>
                 </mat-card-header>
+                <img src="assets/beer_placeholder.jpeg" />
                 <mat-card-content>
-                    <img src="assets/beer_placeholder.jpeg"/>
+                    <div fxLayout="row" fxLayoutAlign="space-between" class="content-row">
+                        <p class="description-container">{{r.description}}</p>
+                        <!-- Need the star favorite icon... -->
+                        <div fxLayout="row" class="favorites-container">
+                            {{r.favorites}}
+                            <mat-icon (click)="toggleRecipeFavorite(r._id.$oid)">star</mat-icon>
+                        </div>
+                    </div>
                 </mat-card-content>
             </mat-card>
         </ng-container>
     </ng-container>
     <ng-template #loadingTemplate>
-        <mat-spinner *ngIf="_loading"></mat-spinner>
+        <mat-spinner></mat-spinner>
     </ng-template>
 </div>

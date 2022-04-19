@@ -18,3 +18,26 @@ mat-card{
   padding: 0;
   padding-top: 1em;
 }
+
+mat-card-content {
+  padding: 1em;
+  max-height: 5em;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.content-row {
+  overflow: hidden;
+}
+
+.description-container {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.favorites-container {
+  align-items: flex-start;
+}
+.favorites-container > mat-icon {
+  padding-left: 0.25em;
+}

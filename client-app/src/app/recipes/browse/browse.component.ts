@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { RepositoryService } from 'src/app/shared/services/repository.service';
 import { Recipe } from 'src/app/_interfaces/recipe.model';
+import { User } from 'src/app/_interfaces/user.model';
 
 @Component({
   selector: 'app-browse',
@@ -12,7 +14,7 @@ export class BrowseComponent implements OnInit {
   public _loading: boolean = true;
   public recipes: Recipe[];
 
-  constructor(private repository: RepositoryService) { }
+  constructor(private repository: RepositoryService, private _router: Router) { }
 
   ngOnInit(): void {
     this.loadRecipes();
@@ -27,7 +29,7 @@ export class BrowseComponent implements OnInit {
         this.recipes.forEach(recipe => {
           let sub: Subscription = this.repository.getData(`users/${recipe.created_by.$oid}`).subscribe({
             next: (response: any) => {
-              recipe.created_by = response.username;
+              recipe.created_by = response as User;
             },
             complete: () => {
               if (sub) sub.unsubscribe();
@@ -40,11 +42,18 @@ export class BrowseComponent implements OnInit {
         this._loading = false
       }
     })
-
-
   }
 
   public onClick(id: string) {
     console.log(`Rerouting to : ${id}`);
+  }
+
+  public toggleRecipeFavorite(id: string){
+    console.log("Favoriting/Unfavoriting Recipe");
+  }
+
+  public routeToProfile(id: string){
+    console.log(`routing to: profile/${id}`)
+    this._router.navigate([`profile/${id}`]);
   }
 }

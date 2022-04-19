@@ -1,0 +1,17 @@
+<ng-container *ngIf="_loaded; else loadingTemplate">
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>{{user.first_name}} {{user.last_name}}'s Profile</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <mat-list>
+                <li *ngFor="let recipe of user.recipes">
+                    <a routerLink="/recipes/{{recipe._id.$oid}}">{{recipe.name}}</a>
+                </li>
+            </mat-list>
+        </mat-card-content>
+    </mat-card>
+</ng-container>
+<ng-template #loadingTemplate>
+    <mat-spinner></mat-spinner>
+</ng-template>

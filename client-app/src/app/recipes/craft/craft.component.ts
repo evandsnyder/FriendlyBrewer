@@ -40,6 +40,7 @@ export class CraftComponent implements OnInit {
 
     this.craftForm = new FormGroup({
       name: new FormControl(),
+      description: new FormControl(),
       grains: new FormArray([
         new FormGroup({
           name: new FormControl(),

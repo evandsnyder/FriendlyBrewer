@@ -37,3 +37,7 @@ class RecipeApi(Resource):
     def get(self, id):
         recipe = BeerRecipe.objects.get(id=id).to_json()
         return Response(recipe, mimetype="application/json", status=200)
+    
+    @jwt_required()
+    def patch(self, id):
+        pass

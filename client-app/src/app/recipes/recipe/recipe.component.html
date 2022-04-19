@@ -1,0 +1,36 @@
+<div>
+    <ng-container *ngIf="_loaded else loadedTemplate">
+        <mat-card>
+            <mat-card-header>
+                <h1>{{recipe.name}}</h1>
+            </mat-card-header>
+            <mat-card-content>
+                <div class="wrapper-container">Description: {{recipe.description}}</div>
+                <div class="wrapper-container">Yeast: {{recipe.yeast.name}}</div>
+                <div fxLayout="row">
+                    <div class="wrapper-container">
+                        <h4>Grain Bill</h4>
+                        <div *ngFor="let g of recipe.grains">
+                            {{g.name}}
+                        </div>
+                    </div>
+                    <div class="wrapper-container">
+                        <h4>Hops</h4>
+                        <div *ngFor="let h of recipe.hops">
+                            {{h.name}}
+                        </div>
+                    </div>
+                </div>
+                <div class="wrapper-container">
+                    <h4>The Process</h4>
+                    <div *ngFor="let s of recipe.instructions">
+                        {{s}}
+                    </div>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </ng-container>
+    <ng-template #loadedTemplate>
+        <mat-spinner></mat-spinner>
+    </ng-template>
+</div>
