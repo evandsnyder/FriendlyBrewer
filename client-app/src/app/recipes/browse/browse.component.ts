@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { AuthenticationService } from 'src/app/shared/services/authentication.service';
 import { RepositoryService } from 'src/app/shared/services/repository.service';
 import { Recipe } from 'src/app/_interfaces/recipe.model';
 import { User } from 'src/app/_interfaces/user.model';
@@ -13,8 +14,9 @@ import { User } from 'src/app/_interfaces/user.model';
 export class BrowseComponent implements OnInit {
   public _loading: boolean = true;
   public recipes: Recipe[];
+  private _loggedInUser?: User;
 
-  constructor(private repository: RepositoryService, private _router: Router) { }
+  constructor(private repository: RepositoryService, private _router: Router, private _auth: AuthenticationService) { }
 
   ngOnInit(): void {
     this.loadRecipes();
@@ -42,18 +44,45 @@ export class BrowseComponent implements OnInit {
         this._loading = false
       }
     })
+
+    if (this._auth.isUserAuthenticated()) {
+      let userSub: Subscription = this.repository.getData('users/me').subscribe({
+        next: (r) => {
+          this._loggedInUser = r as User;
+        }
+      });
+    }
   }
 
   public onClick(id: string) {
-    console.log(`Rerouting to : ${id}`);
+    this._router.navigate([`recipes/${id}`]);
   }
 
-  public toggleRecipeFavorite(id: string){
-    console.log("Favoriting/Unfavoriting Recipe");
+  public toggleRecipeFavorite(id: string, event: Event) {
+    event.stopPropagation();
+    if (!this._auth.isUserAuthenticated()) {
+      alert("You must be logged in to favorie a recipe!");
+    }
+
+    if(!this.isFavorited(id)){
+      console.log("Favoriting recipe!");
+      // Add this id to user's favorites
+      // increment
+    } else {
+      console.log("Unfavoriting recipe!");
+    }
   }
 
-  public routeToProfile(id: string){
-    console.log(`routing to: profile/${id}`)
+  public routeToProfile(id: string, event: Event) {
+    event.stopPropagation();
     this._router.navigate([`profile/${id}`]);
+  }
+
+  public isFavorited(id: string): boolean {
+    return this._auth.isUserAuthenticated() && this._loggedInUser?.favorites.some(r => r._id.$oid === id);
+  }
+
+  public getFavoritedIcon(id: string) {
+    return this.isFavorited(id) ? 'star' : 'star_border';
   }
 }

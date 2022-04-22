@@ -6,7 +6,7 @@
                     <mat-card-title>{{r.name}}</mat-card-title>
                     <mat-card-subtitle>
                         <button mat-button
-                            (click)="routeToProfile(r.created_by._id.$oid)">{{r.created_by.email}}</button>
+                            (click)="routeToProfile(r.created_by._id.$oid, $event)">{{r.created_by.email}}</button>
                     </mat-card-subtitle>
                 </mat-card-header>
                 <img src="assets/beer_placeholder.jpeg" />
@@ -16,7 +16,9 @@
                         <!-- Need the star favorite icon... -->
                         <div fxLayout="row" class="favorites-container">
                             {{r.favorites}}
-                            <mat-icon (click)="toggleRecipeFavorite(r._id.$oid)">star</mat-icon>
+                            <button mat-icon-button (click)="toggleRecipeFavorite(r._id.$oid, $event)">
+                                <mat-icon color="primary">{{getFavoritedIcon(r._id.$oid)}}</mat-icon>
+                            </button>
                         </div>
                     </div>
                 </mat-card-content>

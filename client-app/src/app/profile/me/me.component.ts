@@ -42,4 +42,13 @@ export class MeComponent implements OnInit {
     })
   }
 
+  public updateAccount(event: Event){
+    event.stopPropagation();
+    console.log("Updating account information!");
+  }
+
+  public updatePassword(event: Event){
+    event.stopPropagation();
+    console.log("Updating password!");
+  }
 }

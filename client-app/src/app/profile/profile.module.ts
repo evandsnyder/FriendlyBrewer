@@ -6,6 +6,7 @@ import { MaterialModule } from '../material/material.module';
 import { RouterModule } from '@angular/router';
 import { AuthGuard } from '../shared/guards/auth.guard';
 import { ReactiveFormsModule } from '@angular/forms';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 const routes = [
   { path: 'me', component: MeComponent, canActivate: [AuthGuard] },
@@ -21,7 +22,8 @@ const routes = [
     CommonModule,
     MaterialModule,
     RouterModule.forChild(routes),
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FlexLayoutModule
   ]
 })
 export class ProfileModule { }
