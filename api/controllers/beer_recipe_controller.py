@@ -4,6 +4,9 @@ from flask import Response, jsonify, request
 from flask_jwt_extended import get_jwt_identity, jwt_required
 from flask_restful import Resource
 
+from controllers.errors import RecipeNotFoundError
+from mongoengine.errors import DoesNotExist
+
 import logging
 
 logger = logging.getLogger(__name__)
@@ -33,11 +36,18 @@ class AllRecipesApi(Resource):
 class RecipeApi(Resource):
     def options(self):
         pass
-    
+
     def get(self, id):
         recipe = BeerRecipe.objects.get(id=id).to_json()
         return Response(recipe, mimetype="application/json", status=200)
-    
+
     @jwt_required()
-    def patch(self, id):
-        pass
+    def put(self, id):
+        try:
+            user_id = get_jwt_identity()
+            recipe = BeerRecipe.objects.get(id=id, created_by=user_id)
+            body = request.get_json()
+            BeerRecipe.objects.get(id=id).update(**body)
+            return "", 200
+        except DoesNotExist:
+            raise RecipeNotFoundError
